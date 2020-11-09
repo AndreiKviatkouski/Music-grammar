@@ -12,7 +12,7 @@ This task requires approximately 12 to 48 working hours to solve. It does not me
 
 We suggest you spend at least several hours reading the task and modeling the solution. We tested this task on our engineers: several Syberry Junior Developers on average spent 10 hours reading and thinking and approximately 2 hours of programming it.
 
-### Task Deadline: 3 days
+### Task Deadline: 1 week
 We start a countdown from the moment you clicked the "Registration" button on the Academy website. <br>
 We accept applications before Friday, November 13, 2020, 11:59 PM (GMT+3)
 
