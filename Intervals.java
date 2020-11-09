@@ -1,4 +1,3 @@
-
 import java.util.*;
 
 public class Intervals {
@@ -14,8 +13,8 @@ public class Intervals {
     private static int finishCount;
     private static int degree;
     private static int semitone;
+    private static int index;
     private static String interval;
-
 
     static {
         intervals.put("m2", new ArrayList<>());
@@ -53,133 +52,62 @@ public class Intervals {
         intervals.get("P8").add(8);
     }
 
+
     public static String intervalConstruction(String[] args) throws Exception {
-        /*
-          If there are more or fewer elements in the input array,
-          an exception should be thrown: "Illegal number of elements in input array"
-         */
+
         if (args.length < 2 || args.length > 3) {
             throw new Exception("Illegal number of elements in input array");
         }
 
-
         int startStep = intervals.get(args[0]).get(1);
         int semitoneStep = intervals.get(args[0]).get(0);
 
-        /*
-          this condition is met if the requested value is equal to an octave
-         */
+
         if (args[0].equals("P8")) {
             finishNote = args[1];
         } else {
 
+            String str = convertToString(args[1].charAt(0));
 
-            /*
-             defining the initial note without " b " and "#"
-              in the arrays of notes and notesWithInterval
-             */
-            char ch = args[1].charAt(0);
-            String str = String.valueOf(ch);
+            startNoteIndex = getStartNoteIndex(notes, str);
 
-            for (int i = 0; i < notes.length; i++) {
-                if (notes[i].equals(str)) {
-                    startNoteIndex = i;
-                }
-            }
+            startNoteIndex2 = getStartNoteIndex(notesWithInterval, str);
 
-            for (int i = 0; i < notesWithInterval.length; i++) {
-                if (notesWithInterval[i].equals(str)) {
-                    startNoteIndex2 = i;
-                }
-            }
+            String length = args[0];
+            startCount=getStartCountReverse(length);
 
-            /*
-              defined by # or b music note
-             */
-            if (args[1].length() == 1) {
-                startCount = 0;
-            }
-            if (args[1].length() == 2) {
-                if (args[1].charAt(1) == 'b')
-                    startCount = -1;
-                if (args[1].charAt(1) == '#')
-                    startCount = 1;
-            }
+            String length2 = args[1];
+            startCount=getStartCountForward(length2);
 
+            ArrayList<String> arr;
+            ArrayList<String> arr2;
 
-            ArrayList<String> arr = new ArrayList<>();
-            ArrayList<String> arr2 = new ArrayList<>();
-            /*
-              finding an increasing interval
-             */
             if (args.length == 2 || args[2].equals("asc")) {
 
-                for (int i = 0; i < notes.length; i++) {
-                    String element = notes[(startNoteIndex + i) % notes.length];
-                    arr.add(element);
-                }
-
-                for (int i = 0; i < notesWithInterval.length; i++) {
-                    String element = notesWithInterval[(startNoteIndex2 + i) % notesWithInterval.length];
-                    arr2.add(element);
-                }
+                arr = getSortUpArrayList(notes, startNoteIndex);
+                arr2 = getSortUpArrayList(notesWithInterval, startNoteIndex2);
 
                 startNote = arr.get(startStep - 1);
 
-                int count = 0;
-                for (String s : arr2) {
-
-                    if (s.contains("-")) {
-                        count++;
-                    }
-                    if (s.equals(startNote)) {
-                        break;
-                    }
-                    countFromTo = count;
-                }
-
+                countFromTo = getCountFromConstruction(arr2);
 
                 finishCount = (semitoneStep - countFromTo) + startCount;
 
-
             } else {
-                /*
-                  finding the decreasing interval
-                 */
+
                 if (args[2].equals("dsc")) {
-                    for (int i = notes.length - 1; i >= 0; i--) {
-                        String element = notes[(startNoteIndex + 1 + i) % notes.length];//сдвигаем элементы влево
-                        arr.add(element);
-                    }
-                    for (int i = notesWithInterval.length - 1; i >= 0; i--) {
-                        String element = notesWithInterval[(startNoteIndex2 + 1 + i) % notesWithInterval.length];//сдвигаем элементы влево
-                        arr2.add(element);
-                    }
+
+                    arr = getSortDownArrayList(notes, startNoteIndex);
+                    arr2 = getSortDownArrayList(notesWithInterval, startNoteIndex2);
 
                     startNote = arr.get(startStep - 1);
 
-
-                    int count = 0;
-                    for (String s : arr2) {
-
-                        if (s.contains("-")) {
-                            count++;
-                        }
-                        if (s.equals(startNote)) {
-                            break;
-                        }
-                        countFromTo = count;
-                    }
+                    countFromTo = getCountFromConstruction(arr2);
 
                     finishCount = (countFromTo - semitoneStep) + startCount;
-
-
                 }
             }
 
-            /*
-              get the necessary note
-             */
             switch (finishCount) {
                 case -2 -> finishNote = startNote + "bb";
                 case -1 -> finishNote = startNote + "b";
@@ -195,9 +123,7 @@ public class Intervals {
 
 
     public static String intervalIdentification(String[] args) throws Exception {
-        /*
-          If the interval does not fit a description, an exception thrown: "Cannot identify the interval".
-         */
+
         if (args.length < 2 || args.length > 3) {
             throw new Exception("Cannot identify the interval");
         }
@@ -207,40 +133,19 @@ public class Intervals {
 
         } else {
 
-            char ch = args[0].charAt(0);
-            char ch2 = args[1].charAt(0);
-            String str = String.valueOf(ch);
-            String str2 = String.valueOf(ch2);
+            String str = convertToString(args[0].charAt(0));
+            String str2 = convertToString(args[1].charAt(0));
 
-            for (int i = 0; i < notes.length; i++) {
-                if (notes[i].equals(str)) {
-                    startNoteIndex = i;
-                }
-            }
-            for (int i = 0; i < notesWithInterval.length; i++) {
-                if (notesWithInterval[i].equals(str)) {
-                    startNoteIndex2 = i;
-                }
-            }
+            startNoteIndex = getStartNoteIndex(notes, str);
+            startNoteIndex2 = getStartNoteIndex(notesWithInterval, str);
 
-            ArrayList<String> arr = new ArrayList<>();
-            ArrayList<String> arr2 = new ArrayList<>();
+            ArrayList<String> arr;
+            ArrayList<String> arr2;
 
-/*
-get the  semitone, startCount, countFromTo, finishCount if asc
- */
             if (args.length == 2 || args[2].equals("asc")) {
 
-
-                if (args[0].length() == 1) {
-                    startCount = 0;
-                }
-                if (args[0].length() == 2) {
-                    if (args[0].charAt(1) == 'b')
-                        startCount = 1;
-                    if (args[0].charAt(1) == '#')
-                        startCount = -1;
-                }
+                String length = args[0];
+                startCount=getStartCountReverse(length);
 
                 if (args[1].length() == 1) {
                     finishCount = 0;
@@ -258,54 +163,18 @@ get the  semitone, startCount, countFromTo, finishCount if asc
                         finishCount = 2;
                 }
 
+                arr = getSortUpArrayList(notes, startNoteIndex);
+                arr2 = getSortUpArrayList(notesWithInterval, startNoteIndex2);
 
-                for (int i = 0; i < notes.length; i++) {
-                    String element = notes[(startNoteIndex + i) % notes.length];
-                    arr.add(element);
-                }
+                degree = getDegree(arr, str2);
 
-                for (int i = 0; i < arr.size(); i++) {
-                    if (arr.get(i).contains(str2)) {
-                        degree = i + 1;
-                    }
-                }
-
-                for (int i = 0; i < notesWithInterval.length; i++) {
-                    String element = notesWithInterval[(startNoteIndex2 + i) % notesWithInterval.length];
-                    arr2.add(element);
-                }
-
-
-                int count = 0;
-                for (String s : arr2) {
-
-                    if (s.contains("-")) {
-                        count++;
-                    }
-                    if (s.equals(str2)) {
-                        break;
-                    }
-                    countFromTo = count;
-                }
-
-                semitone = startCount + countFromTo + finishCount;
-
+                countFromTo = getCountFromToInterval(arr2, str2);
 
             } else {
-/*
-get the  semitone, startCount, countFromTo, finishCount if dsc
- */
                 if (args[2].equals("dsc")) {
 
-                    if (args[0].length() == 1) {
-                        startCount = 0;
-                    }
-                    if (args[0].length() == 2) {
-                        if (args[0].charAt(1) == 'b')
-                            startCount = -1;
-                        if (args[0].charAt(1) == '#')
-                            startCount = 1;
-                    }
+                    String length = args[0];
+                    startCount = getStartCountForward(length);
 
                     if (args[1].length() == 1) {
                         finishCount = 0;
@@ -323,46 +192,103 @@ get the  semitone, startCount, countFromTo, finishCount if dsc
                             finishCount = -2;
                     }
 
+                    arr = getSortDownArrayList(notes, startNoteIndex);
+                    arr2 = getSortDownArrayList(notesWithInterval, startNoteIndex2);
 
-                    for (int i = notes.length - 1; i >= 0; i--) {
-                        String element = notes[(startNoteIndex + 1 + i) % notes.length];//сдвигаем элементы влево
-                        arr.add(element);
-                    }
-                    for (int i = 0; i < arr.size(); i++) {
-                        if (arr.get(i).contains(str2)) {
-                            degree = i + 1;
+                    degree = getDegree(arr, str2);
 
-
-                        }
-                    }
-                    for (int i = notesWithInterval.length - 1; i >= 0; i--) {
-                        String element = notesWithInterval[(startNoteIndex2 + 1 + i) % notesWithInterval.length];
-                        arr2.add(element);
-                    }
-
-
-                    int count = 0;
-                    for (String s : arr2) {
-
-                        if (s.contains("-")) {
-                            count++;
-                        }
-                        if (s.equals(str2)) {
-                            break;
-                        }
-                        countFromTo = count;
-                    }
-
-
+                    countFromTo = getCountFromToInterval(arr2, str2);
                 }
-                semitone = startCount + countFromTo + finishCount;
+            }
+            semitone = startCount + countFromTo + finishCount;
+        }
+        interval = getInterval(degree, semitone);
 
 
+        return interval;
+    }
+
+
+    public static String convertToString(char charAt) {
+        return String.valueOf(charAt);
+    }
+
+
+    public static int getCountFromConstruction(ArrayList<String> arr) {
+        int count = 0;
+        for (String s : arr) {
+
+            if (s.contains("-")) {
+                count++;
+            }
+            if (s.equals(startNote)) {
+                break;
+            }
+            countFromTo = count;
+        }
+        return countFromTo;
+    }
+
+
+    public static int getCountFromToInterval(ArrayList<String> arr, String str) {
+        int count = 0;
+        for (String s : arr) {
+
+            if (s.contains("-")) {
+                count++;
+            }
+            if (s.equals(str)) {
+                break;
+            }
+            countFromTo = count;
+        }
+
+        return countFromTo;
+    }
+
+
+    public static int getStartNoteIndex(String[] arr, String str) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].equals(str)) {
+                index = i;
             }
         }
-/*
-get the necessary note
- */
+        return index;
+    }
+
+
+    public static ArrayList<String> getSortUpArrayList(String[] arr1, int index) {
+        ArrayList<String> arr = new ArrayList<>();
+        for (int i = 0; i < arr1.length; i++) {
+            String element = arr1[(index + i) % arr1.length];
+            arr.add(element);
+        }
+        return arr;
+
+    }
+
+
+    public static ArrayList<String> getSortDownArrayList(String[] arr1, int index) {
+        ArrayList<String> arr = new ArrayList<>();
+        for (int i = arr1.length - 1; i >= 0; i--) {
+            String element = arr1[(index + 1 + i) % arr1.length];//сдвигаем элементы влево
+            arr.add(element);
+        }
+        return arr;
+    }
+
+
+    public static int getDegree(ArrayList<String> arrayList, String str) {
+        for (int i = 0; i < arrayList.size(); i++) {
+            if (arrayList.get(i).contains(str)) {
+                degree = i + 1;
+            }
+        }
+        return degree;
+    }
+
+
+    public static String getInterval(int degree, int semitone) {
         ArrayList<Integer> arrayList = new ArrayList<>();
         arrayList.add(semitone);
         arrayList.add(degree);
@@ -374,9 +300,34 @@ get the necessary note
                 interval = pair.getKey();
             }
         }
-
         return interval;
+    }
 
+    public static int getStartCountForward(String str) {
+        if (str.length() == 1) {
+            startCount = 0;
+        }
+        if (str.length() == 2) {
+            if (str.charAt(1) == 'b')
+                startCount = -1;
+            if (str.charAt(1) == '#')
+                startCount = 1;
+        }
 
+        return startCount;
+    }
+
+    public static int getStartCountReverse(String str) {
+        if (str.length() == 1) {
+            startCount = 0;
+        }
+        if (str.length() == 2) {
+            if (str.charAt(1) == 'b')
+                startCount = 1;
+            if (str.charAt(1) == '#')
+                startCount = -1;
+        }
+
+        return startCount;
     }
 }
