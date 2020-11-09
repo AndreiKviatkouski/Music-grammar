@@ -1,4 +1,4 @@
-#Syberry Academy Test Task
+##Syberry Academy Test Task
 Task updated: Fri, October 23, 2020, 4:00 PM (GMT+3)
 If you started your task before the latest update, we suggest you to go through the requirements once again!
 If you've found a mistake in task description, please don't hesitate to make a merge request!
