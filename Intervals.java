@@ -74,10 +74,10 @@ public class Intervals {
             startNoteIndex2 = getStartNoteIndex(notesWithInterval, str);
 
             String length = args[0];
-            startCount=getStartCountReverse(length);
+            startCount = getStartCountForward(length)*-1;
 
             String length2 = args[1];
-            startCount=getStartCountForward(length2);
+            startCount = getStartCountForward(length2);
 
             ArrayList<String> arr;
             ArrayList<String> arr2;
@@ -145,23 +145,10 @@ public class Intervals {
             if (args.length == 2 || args[2].equals("asc")) {
 
                 String length = args[0];
-                startCount=getStartCountReverse(length);
+                startCount = (getStartCountForward(length))*-1;
 
-                if (args[1].length() == 1) {
-                    finishCount = 0;
-                }
-                if (args[1].length() == 2) {
-                    if (args[1].charAt(1) == 'b')
-                        finishCount = -1;
-                    if (args[1].charAt(1) == '#')
-                        finishCount = 1;
-                }
-                if (args[1].length() == 3) {
-                    if (args[1].charAt(2) == 'b')
-                        finishCount = -2;
-                    if (args[1].charAt(2) == '#')
-                        finishCount = 2;
-                }
+                String length2 = args[1];
+                finishCount = getFinishCountForward(length2);
 
                 arr = getSortUpArrayList(notes, startNoteIndex);
                 arr2 = getSortUpArrayList(notesWithInterval, startNoteIndex2);
@@ -176,21 +163,8 @@ public class Intervals {
                     String length = args[0];
                     startCount = getStartCountForward(length);
 
-                    if (args[1].length() == 1) {
-                        finishCount = 0;
-                    }
-                    if (args[1].length() == 2) {
-                        if (args[1].charAt(1) == 'b')
-                            finishCount = 1;
-                        if (args[1].charAt(1) == '#')
-                            finishCount = -1;
-                    }
-                    if (args[1].length() == 3) {
-                        if (args[1].charAt(2) == 'b')
-                            finishCount = 2;
-                        if (args[1].charAt(2) == '#')
-                            finishCount = -2;
-                    }
+                    String length2 = args[1];
+                    finishCount = getFinishCountForward(length2) * -1;
 
                     arr = getSortDownArrayList(notes, startNoteIndex);
                     arr2 = getSortDownArrayList(notesWithInterval, startNoteIndex2);
@@ -202,8 +176,8 @@ public class Intervals {
             }
             semitone = startCount + countFromTo + finishCount;
         }
-        interval = getInterval(degree, semitone);
 
+        interval = getInterval(degree, semitone);
 
         return interval;
     }
@@ -271,7 +245,7 @@ public class Intervals {
     public static ArrayList<String> getSortDownArrayList(String[] arr1, int index) {
         ArrayList<String> arr = new ArrayList<>();
         for (int i = arr1.length - 1; i >= 0; i--) {
-            String element = arr1[(index + 1 + i) % arr1.length];//сдвигаем элементы влево
+            String element = arr1[(index + 1 + i) % arr1.length];
             arr.add(element);
         }
         return arr;
@@ -313,21 +287,25 @@ public class Intervals {
             if (str.charAt(1) == '#')
                 startCount = 1;
         }
-
         return startCount;
     }
 
-    public static int getStartCountReverse(String str) {
+    public static int getFinishCountForward(String str) {
         if (str.length() == 1) {
-            startCount = 0;
+            finishCount = 0;
         }
         if (str.length() == 2) {
             if (str.charAt(1) == 'b')
-                startCount = 1;
+                finishCount = -1;
             if (str.charAt(1) == '#')
-                startCount = -1;
+                finishCount = 1;
         }
-
-        return startCount;
+        if (str.length() == 3) {
+            if (str.charAt(2) == 'b')
+                finishCount = -2;
+            if (str.charAt(2) == '#')
+                finishCount = 2;
+        }
+        return finishCount;
     }
 }
