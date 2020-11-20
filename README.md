@@ -1,20 +1,6 @@
-# Syberry Academy Test Task
-**Task updated: Fri, October 23, 2020, 4:00 PM (GMT+3)** <br>
-If you started your task **before** the latest update, we suggest you to go through the requirements once again!<br>
-If you've found a mistake in task description, please don't hesitate to make a merge request!<br>
+# Music grammar
 
-**A word of advice** <br>
-In Academy we expect you to know how to read requirements and how to code in your language. <br>
-
-To prove this ability in you, we ask you to implement this task and submit it via GitHub to confirm that you are ready to study in Academy. <br>
-
-This task requires approximately 12 to 48 working hours to solve. It does not mean that **you** will solve it in 12-48 hours. It is ok to spend as many hours as you think is needed. <br>
-
-We suggest you spend at least several hours reading the task and modeling the solution. We tested this task on our engineers: several Syberry Junior Developers on average spent 10 hours reading and thinking and approximately 2 hours of programming it.
-
-### Task Deadline: 1 week
-We start a countdown from the moment you clicked the "Registration" button on the Academy website. <br>
-We accept applications before Friday, November 13, 2020, 11:59 PM (GMT+3)
+**Test task <br>
 
 ### Applied Music Theory
 
@@ -144,9 +130,6 @@ Cbb Cb C C# C## Dbb Db D D# D## Ebb Eb E E# E## Fbb Fb F F# F## Gbb Gb G G# G## 
 
 You may find [more examples here](examples.md). We will test your solution on this and similar examples.
 
-### Language Specific Requirements
-You 'MUST' use [predefined files and functions](predefined-files). **DO NOT CHANGE FILE NAME AND FUNCTIONS NAMES AND PARAMETERS**. <br>
-
 **for Java** <br>
 Class Name: `Intervals` <br>
 Functions `intervalIdentification` and `intervalConstruction` `MUST` be static <br>
@@ -155,56 +138,3 @@ Java Version: 14 and older <br>
 Do not use `System.out.*` or any other output methods<br>
 Do not add packages <br>
 Use [predefined file](predefined-files/Intervals.java) <br>
-
-**for PHP** <br>
-Do not use `echo` or `print` any other output methods<br>
-Use [predefined file](predefined-files/intervals.php) <br>
-
-**for JS** <br>
-Do not use `console.log` or any other output methods <br>
-Use [predefined file](predefined-files/intervals.js) <br>
-
-### How to submit
-- Create your personal private repository in GitHub. Name it Name-Surname-Academy-Test-Task. It is important to have your repository PRIVATE. We won't check solutions in the public repository.
-- The end time is the time of your last commit in your repository.
-- Submit one file named `intervals.js` (or `intervals.php`, `Intervals.java`). [Please find these files here](predefined-files).
-- A file `MUST` contain two functions: intervalContruction() and intervalIdentification() [as defined here](predefined-files). You may add any other functionality to the file.
-- We'll need read permission to your repository to check your solution. Add user SyberryAcademy to your repository as a Collaborator.
-- Upload your CV to your repository.
-- Send a link to your repository with solved task and CV to academy@syberry.com. Email subject: "Name Surname Syberry Academy %Specialization% %Language%" where %Specialization% is either BE or FE, and %Language% is the language you're using to solve our tasks. For example, "Jane Doe Syberry Academy BE Java"
-
-### What's next
-- If you did well on our task, our Recruiter will call you and invite you to a technical interview
-- If not, we'll send you an email with your results and comments <br>
-**We promise to reach you in 5 working days starting the day you sent us your email**
-
-### Sanity Check: Please Double Check this Requirements
-**The following requirements `MUST` be completed. If not, we won't check your task.**
-- The `intervals.__` file `MUST` in your GitHub repository **in the root folder** (see example)
-- Do not use output methods
-- Your CV `MUST` be in your GitHub repository (see example)
-```
-Jane-Doe-Academy-Test-Task
-    cv.md
-    intervals.php
-    README.md
-```
-
-```
-Keanu-Reeves-Academy-Test-Task
-    cv.txt
-    Intervals.java
-    README.md
-```
-
-```
-Henry-Cavill-Academy-Test-Task
-    cv.pdf
-    intervals.js
-    README.md
-```
-- The repository `MUST` be private
-- User @SyberryAcademy `MUST` be added as a Developer
-- Your CV may be in any form. Several lines about you in the .txt document will do
-
-Good Luck and We hope to see You in Syberry Academy!
